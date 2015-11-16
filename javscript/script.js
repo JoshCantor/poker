@@ -23,17 +23,39 @@ Game.prototype.end = function() {
 	console.log("Sadly, the game is now over :(");
 }
 
-var Player = function(name, currentHand, bestHand) {
-	this.name = name;
-	this.currentHand = currentHand;
-	this.bestHand = bestHand
+Game.prototype.determineWinner = function() {
+	//loop through players 'best hand' (evaluate hand)
+	// console.log(this.players);
 }
 
-Player.prototype.lookAtCards = function() {
+var Player = function(name, currentHand, potentialHands) {
+	this.name = name;
+	this.currentHand = currentHand;
+	this.potentialHands = potentialHands
 }
 
 Player.prototype.discardCards = function() {
 }
+
+
+Player.prototype.lookAtDetailedCards = function() {
+	var sortedHand = this.currentHand.sort(function(a, b) {
+		return a.phantomNumber - b.phantomNumber;
+	});
+	return sortedHand;
+	
+}
+
+Player.prototype.lookAtSimpleCards = function() {
+	var sortedHand = this.lookAtDetailedCards();
+	var hand = []
+	for (card in sortedHand) {
+		hand.push([sortedHand[card].number, sortedHand[card].suit]);
+	}
+	console.log(hand);
+	return hand;
+}
+
 
 Player.prototype.evaluateHand = function() {
 	// for testing straights/straight flushes
@@ -49,30 +71,21 @@ Player.prototype.evaluateHand = function() {
 	// game1.players[0].currentHand[4].phantomNumber = 14;
 
 	//sort hand by number
-	var sortedHand = this.currentHand.sort(function(a, b) {
-		return a.phantomNumber - b.phantomNumber;
-	});
+	var sortedHand = this.lookAtDetailedCards();
+	this.lookAtSimpleCards();
 
-	var bestHand = {
-		highCard: sortedHand[4].number, 
-	}
+	var potentialHands = {highCard: {"0": sortedHand[4].number}};
 
-	var pair1 = false;
-	var pair2 = false;
-	var twoPair = false;
-	var threeOfKind = false;
-	var straight = false;
-	var fourOfKind = false;
-	var fullHouse = false;
-	var flush = false;
-	var straightFlush = false;
-	var royalFlush = false;
-	
-	for (card in sortedHand) {
-		var hand = []
-		hand.push([sortedHand[card].number, sortedHand[card].suit]);
-		console.log(hand);
-	}
+	var pair1 = {"1": false};
+	var pair2 = {"1": false};
+	var twoPair = {"2": false};
+	var threeOfKind = {"3": false};
+	var straight = {"4": false};
+	var fourOfKind = {"5": false};
+	var fullHouse = {"6": false};
+	var flush = {"7": false};
+	var straightFlush = {"8": false};
+	var royalFlush = {"9": false};
 
 	function getCardNumber(element) {
 		return sortedHand[element].number;
@@ -86,21 +99,18 @@ Player.prototype.evaluateHand = function() {
 		var cardsSeen = [];	
 		for (i = 0; i < sortedHand.length; i++) {
 			cardNumber = getCardNumber(i);
-			if (cardNumber === threeOfKind) {
-				fourOfKind = cardNumber;
+			if (cardNumber === threeOfKind["3"]) {
+				fourOfKind["5"] = cardNumber;
 			}
-			else if (cardNumber === pair1 || cardNumber === pair2) {
-				threeOfKind = cardNumber;
+			else if (cardNumber === pair1["1"] || cardNumber === pair2["1"]) {
+				threeOfKind["3"] = cardNumber;
 			}
-			else if (isIncluded(cardNumber, cardsSeen) && pair1 !== false && cardNumber !== pair1) {
-				pair2 = cardNumber;
-				twoPair = [pair1, pair2];
-			}
-			else if (cardNumber === pair1) {
-				threeOfKind = cardNumber;
+			else if (isIncluded(cardNumber, cardsSeen) && pair1["1"] !== false && cardNumber !== pair1["1"]) {
+				pair2["1"] = cardNumber;
+				twoPair["2"] = [pair1["1"], pair2["1"]];
 			}
 			else if (isIncluded(cardNumber, cardsSeen)) {
-				pair1 = cardNumber;
+				pair1["1"] = cardNumber;
 			} 	
 			cardsSeen.push(cardNumber);
 		}	
@@ -108,10 +118,10 @@ Player.prototype.evaluateHand = function() {
 	isXofKind();
 
 	function isFullHouse() {
-		if (pair2 !== false && threeOfKind !== false && pair2 !== threeOfKind) {
-			fullHouse = ["pair " + pair2, "three " + threeOfKind];
-		} else if (pair1 !== false && threeOfKind !== false && pair1 !== threeOfKind) {
-			fullHouse = ["pair " + pair1, "three " + threeOfKind];
+		if (pair2["1"] !== false && threeOfKind["3"] !== false && pair2["1"] !== threeOfKind["3"]) {
+			fullHouse["6"] = ["pair " + pair2["1"], "three " + threeOfKind["3"]];
+		} else if (pair1["1"] !== false && threeOfKind["3"] !== false && pair1["1"] !== threeOfKind["3"]) {
+			fullHouse["6"] = ["pair " + pair1["1"], "three " + threeOfKind["3"]];
 		}
 		this.fullHouse = fullHouse
 	}
@@ -123,7 +133,7 @@ Player.prototype.evaluateHand = function() {
 				return false
 			}
 		}
-		flush = getCardSuit(0);
+		flush["7"] = getCardSuit(0);
 		this.flush = flush;
 	}
 	isFlush(); 
@@ -132,7 +142,7 @@ Player.prototype.evaluateHand = function() {
 		for (var i = 0; i <= sortedHand.length - 2; i++) {
 			if (sortedHand[i + 1].phantomNumber === sortedHand[i].phantomNumber + 1) {
 				if (i === sortedHand.length - 2) {
-					straight = [sortedHand[0].number, sortedHand[4].number];
+					straight["4"] = [sortedHand[0].number, sortedHand[4].number];
 					return true;
 				}
 			} else {
@@ -142,7 +152,7 @@ Player.prototype.evaluateHand = function() {
 		for (var i = 0; i <= 2; i++) {
 			if (sortedHand[i + 1].phantomNumber === sortedHand[i].phantomNumber + 1) {
 				if (i === 2 && sortedHand[4].phantomNumber === 14 && sortedHand[0].phantomNumber === 2) {
-					straight = [sortedHand[4].number, sortedHand[3].number];
+					straight["4"] = [sortedHand[4].number, sortedHand[3].number];
 				}
 			} else {
 				break;
@@ -153,8 +163,8 @@ Player.prototype.evaluateHand = function() {
 	isStraight();
 
 	function isStraightFlush() {
-		if (straight && flush) {
-			straightFlush = true;
+		if (straight["4"] && flush["7"]) {
+			straightFlush["8"] = true;
 		}
 		this.straightFlush = straightFlush;
 	}
@@ -162,25 +172,45 @@ Player.prototype.evaluateHand = function() {
 
 	function isRoyalFlush() {
 		if (straightFlush && (getCardNumber(0) === 10)) {
-			royalFlush = true;
+			royalFlush["9"] = true;
 		}
 		this.royalFlush = royalFlush;
 	}
 	isRoyalFlush();
 
-	bestHand.pair1 = pair1;
-	bestHand.pair2 = pair2
-	bestHand.twoPair = twoPair;
-	bestHand.threeOfKind = threeOfKind;
-	bestHand.straight = straight;
-	bestHand.fourOfKind = fourOfKind;
-	bestHand.fullHouse = fullHouse;
-	bestHand.flush = flush;
-	bestHand.straightFlush = straightFlush;
-	bestHand.royalFlush = royalFlush;
+	potentialHands.pair1 = pair1;
+	potentialHands.pair2 = pair2
+	potentialHands.twoPair = twoPair;
+	potentialHands.threeOfKind = threeOfKind;
+	potentialHands.straight = straight;
+	potentialHands.fourOfKind = fourOfKind;
+	potentialHands.fullHouse = fullHouse;
+	potentialHands.flush = flush;
+	potentialHands.straightFlush = straightFlush;
+	potentialHands.royalFlush = royalFlush;
 
+	return potentialHands;
+}	
+
+Player.prototype.bestHand = function() {
+	//once a hand is evaluated, determines 
+	//1.) hand type/rank 2.) car numbers 3. next high card
+	var potentialHands = this.evaluateHand();
+	var bestHand;
+	var i = 0;
+	for (eachHand in potentialHands) {
+		numStr = i.toString()
+		var currentHand = potentialHands[eachHand][numStr];
+		if (currentHand) {
+			var detailedHand = potentialHands[eachHand];
+			bestHand = [eachHand, detailedHand];
+		}
+		i += 1
+	}
+	console.log(bestHand);
 	return bestHand;
-}	 
+
+} 
 
 var Card = function(name, number, suit, phantomNumber) {
 	this.name = name;
@@ -256,8 +286,10 @@ DeckOfCards.prototype.shuffle = function() {
 var numberOfPlayers = 2
 var game1 = new Game(2);
 game1.start();
-console.log(game1.players[0].evaluateHand());
-console.log(game1.players[1].evaluateHand());
+// console.log(game1.players[0].evaluateHand());
+// console.log(game1.players[1].evaluateHand());
+game1.players[0].bestHand();
+// game1.determineWinner();
 game1.end();
 
 
