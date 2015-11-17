@@ -37,10 +37,10 @@ Game.prototype.determineWinner = function() {
 			bestHand = playerBestHand;
 			winner = player.name;
 		} else if (playerBestHand.rank === bestHand.rank) {
-			if (playerBestHand.value > bestHand.value) {
+			if (playerBestHand.phantNum > bestHand.phantNum) {
 				bestHand = playerBestHand;
 				winner = player.name;
-			} else if (playerBestHand.value === bestHand.value) {
+			} else if (playerBestHand.phantNum === bestHand.phantNum) {
 				console.log("It's a tie! (for now...)")
 				return true;
 			}
