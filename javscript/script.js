@@ -52,7 +52,6 @@ Player.prototype.lookAtSimpleCards = function() {
 	for (card in sortedHand) {
 		hand.push([sortedHand[card].number, sortedHand[card].suit]);
 	}
-	console.log(hand);
 	return hand;
 }
 
@@ -179,7 +178,7 @@ Player.prototype.evaluateHand = function() {
 	isRoyalFlush();
 
 	potentialHands.pair1 = pair1;
-	potentialHands.pair2 = pair2
+	potentialHands.pair2 = pair2;
 	potentialHands.twoPair = twoPair;
 	potentialHands.threeOfKind = threeOfKind;
 	potentialHands.straight = straight;
@@ -189,6 +188,29 @@ Player.prototype.evaluateHand = function() {
 	potentialHands.straightFlush = straightFlush;
 	potentialHands.royalFlush = royalFlush;
 
+	var cardList = [];
+	for (card in sortedHand) {
+		cardList.push(sortedHand[card].phantomNumber);
+	}
+
+	console.log(cardList);
+
+	potentialHands.pair1.sortedHand = cardList;
+	potentialHands.pair2.sortedHand = cardList;
+	potentialHands.twoPair.sortedHand = cardList;
+	potentialHands.threeOfKind.sortedHand = cardList;
+	potentialHands.straight.sortedHand = cardList;
+	potentialHands.fourOfKind.sortedHand = cardList;
+	potentialHands.flush.sortedHand = cardList;
+	potentialHands.straightFlush.sortedHand = cardList;
+	potentialHands.royalFlush.sortedHand = cardList;
+
+	//if type is shared, look at the card of that type and compare first
+	//if those cards are also tied, then look at ordered hand
+	//if that's the same, split the pot
+	//have second property be the ordered phantom.numbers 
+	
+	// console.log(potentialHands);
 	return potentialHands;
 }	
 
@@ -207,7 +229,11 @@ Player.prototype.bestHand = function() {
 		}
 		i += 1
 	}
-	console.log(bestHand);
+
+
+
+	// console.log(bestHand);
+
 	return bestHand;
 
 } 
