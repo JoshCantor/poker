@@ -23,15 +23,33 @@ Game.prototype.end = function() {
 	console.log("Sadly, the game is now over :(");
 }
 
-// Game.prototype.determineWinner = function() {
-// 	var winner;
-// 	var players = this.players;
-// 	for(player in players) {
-// 		var playerHand = players[player]
-// 		console.log(playerHand.bestHand());
-
-// 	}
-// }
+Game.prototype.determineWinner = function() {
+	//once a hand is evaluated, determines: 
+	//1.) hand type/rank 2.) car numbers 3. next high card
+	var winner;
+	var bestHand;
+	var players = this.players;
+	for(player in players) {
+		var player = players[player]
+		var playerBestHand = player.bestHand();
+		console.log("all hands", playerBestHand);
+		if(bestHand === undefined || playerBestHand.rank > bestHand.rank) {
+			bestHand = playerBestHand;
+			winner = player.name;
+		} else if (playerBestHand.rank === bestHand.rank) {
+			if (playerBestHand.value > bestHand.value) {
+				bestHand = playerBestHand;
+				winner = player.name;
+			} else if (playerBestHand.value === bestHand.value) {
+				console.log("It's a tie! (for now...)")
+				return true;
+			}
+		}
+	}
+	console.log('The winner is player', winner);
+	console.log('Winning hand: ', bestHand.hand, bestHand.value);
+	return winner;
+}
 
 var Player = function(name, currentHand, potentialHands) {
 	this.name = name;
@@ -79,13 +97,17 @@ Player.prototype.evaluateHand = function() {
 	var potentialHands = [
 			{
 				hand: 'High Card',
-				value: highCard
+				value: highCard,
+				sortedHand: sortedHand,
+				rank: 0
+
 			}
 	];
 
 	var pair1 = {
 		hand: 'Pair',
-		value: false
+		value: false,
+		rank: 1
 	};
 
 	var pair2 = {
@@ -95,42 +117,50 @@ Player.prototype.evaluateHand = function() {
 
 	var twoPair = {
 		hand: 'Two Pair',
-		value: false
+		value: false,
+		rank: 2
 	};
 
 	var threeOfKind = {
 		hand: 'Three Of a Kind',
 		value: false,
+		rank: 3
 	};
 
 	var straight = {
 		hand: 'Straight',
-		value: false
+		value: false,
+		rank: 4
 	};
 
 	var fourOfKind = {
 		hand: 'Four Of a Kind',
-		value: false
+		value: false,
+		rank: 5
 	};
 
 	var fullHouse = {
 		hand: 'Full House', 
-		value: false
+		value: false,
+		rank: 6
 	};
 
 	var flush = {
 		hand: 'Flush', 
-		value: false
+		value: false,
+		rank: 7
 	};
 
 	var straightFlush = {
 		hand: 'Straight Flush', 
-		value: false
+		value: false,
+		rank: 8
 	};
 
 	var royalFlush = {
 		hand: 'Royal Flush', 
-		value: false
+		value: false,
+		rank: 9
 	};
 
 	function getCardNumber(index) {
@@ -240,7 +270,7 @@ Player.prototype.evaluateHand = function() {
 	for (card in sortedHand) {
 		cardList.push(sortedHand[card].phantomNumber);
 	}
-
+	potentialHands[0].sortedHand = cardList;
 	pair1.sortedHand = cardList;
 	pair2.sortedHand = cardList;
 	twoPair.sortedHand = cardList;
@@ -266,22 +296,15 @@ Player.prototype.evaluateHand = function() {
 }	
 
 Player.prototype.bestHand = function() {
-	//once a hand is evaluated, determines: 
-	//1.) hand type/rank 2.) car numbers 3. next high card
 	var potentialHands = this.evaluateHand();
-	console.log('potential', potentialHands);
 	var bestHand;
 	var i = 0;
 	for (eachHand in potentialHands) {
-		numStr = i.toString()
-		var currentHand = potentialHands[eachHand][numStr];
-		if (currentHand) {
-			var detailedHand = potentialHands[eachHand];
-			bestHand = [eachHand, detailedHand];
+		var currentHand = potentialHands[eachHand];
+		if (currentHand.value) {
+			bestHand = potentialHands[eachHand];
 		}
-		i += 1
 	}
-	// console.log('best', bestHand);
 	return bestHand;
 } 
 
@@ -359,10 +382,8 @@ DeckOfCards.prototype.shuffle = function() {
 var numberOfPlayers = 2
 var game1 = new Game(2);
 game1.start();
-// console.log(game1.players[0].evaluateHand());
-// console.log(game1.players[1].evaluateHand());
-game1.players[0].bestHand();
-// game1.determineWinner();
+// game1.players[0].bestHand();
+game1.determineWinner();
 game1.end();
 
 
