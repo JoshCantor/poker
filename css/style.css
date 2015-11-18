@@ -1,0 +1,10 @@
+.top {
+	height: 100px;
+}
+
+.pokerTable {
+	width: 1200px;
+	height: 800px;
+	background: green;
+	border-radius: 500px;
+}
