@@ -327,8 +327,8 @@ var DeckOfCards = function(numberOfCards, cardList) {
 
 DeckOfCards.prototype.create = function() {
 	var cardList = [];
-	var faceCards = ["Jack", "Queen", "King", "Ace"];
-	var suits = ["Clubs", "Diamonds", "Hearts", "Spades"];
+	var faceCards = ["jack", "queen", "king", "ace"];
+	var suits = ["clubs", "diamonds", "hearts", "spades"];
 	var cardCounter = 1 
 	for(var i = 0; i < suits.length; i++) {	
 		for(var cardNumber = 2; cardNumber <= 10; cardNumber++) {
