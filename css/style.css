@@ -8,3 +8,8 @@
 	background: green;
 	border-radius: 500px;
 }*/
+
+.player {
+	float: left;
+	margin: 20px;
+}
