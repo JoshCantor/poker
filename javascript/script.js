@@ -14,6 +14,7 @@ var Game = function(numberOfPlayers) {
 			this.deck.cardList.shift();
 		}
 	}
+
 	this.determineWinner()
 	this.end();
 }
@@ -60,7 +61,8 @@ var Player = function(name, currentHand, potentialHands) {
 	this.potentialHands = potentialHands
 }
 
-Player.prototype.discardCards = function() {
+Player.prototype.discardAndDraw = function() {
+
 }
 
 Player.prototype.lookAtDetailedCards = function() {
