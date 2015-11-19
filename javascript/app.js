@@ -3,7 +3,7 @@ var createGamePlayer = function() {
 
 	var playerImg = $('<img>').attr('src', 'images/card_back.png');
 
-	var playerName = $('<p>')
+	var playerName = $('<p>').html()
 
 	playerContainer.append(playerImg, playerName);
 
@@ -14,7 +14,6 @@ var createGamePlayer = function() {
 
 var createAllPlayers = function(number) {
 	for (i = 0; i < number; i++) {
-		console.log(i);
 		createGamePlayer();
 	}
 }
@@ -27,12 +26,36 @@ var createStartButton = function() {
 }
 createStartButton();
 
+var createUserCard = function(cardNumber) {
+	var userCardContainer = $('<div>').addClass('col-md-2 ' + cardNumber);
+	console.log(userCardContainer);
+	$('.user').append(userCardContainer);
+	var userCardImg = GAME_START.players[0].currentHand[cardNumber].image;
+	$('.' + cardNumber).append(userCardImg);
+}
+
+var createUserHand = function(handSize) {
+	for (var i = 0; i < handSize; i++) {
+		createUserCard(i);
+	}
+}
+
+var GAME_START;
 var startGameButton = function() {
 	$('.startButton').on('click', function() {
-		var numberOfPlayers = window.prompt("How many players woudld you like?");
+		var numberOfPlayers = window.prompt("How many players would you like?");
 		createAllPlayers(numberOfPlayers);
-		var gameStart = new Game(numberOfPlayers);
-
+		GAME_START = new Game(numberOfPlayers);
+		createUserHand(5);
 	})
 }
 startGameButton();
+
+
+
+
+
+
+
+
+

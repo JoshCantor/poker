@@ -333,11 +333,13 @@ DeckOfCards.prototype.create = function() {
 	for(var i = 0; i < suits.length; i++) {	
 		for(var cardNumber = 2; cardNumber <= 10; cardNumber++) {
 			var card = new Card (cardCounter, cardNumber, suits[i], cardNumber, i);
+			card.image = $('<img>').attr('src', 'images/' + card.suit + '/' + card.number + '.png')
 			cardList.push(card);
 			cardCounter += 1;
 		}
 		for(var faceCardIndex = 0; faceCardIndex < faceCards.length; faceCardIndex++) {
 			var card = new Card (cardCounter, faceCards[faceCardIndex], suits[i], (faceCardIndex + 11), faceCardIndex);
+			card.image = $('<img>').attr('src', 'images/' + card.suit + '/' + card.number + '.png')
 			cardList.push(card);
 			cardCounter += 1;
 		}
