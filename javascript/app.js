@@ -1,20 +1,22 @@
-var createGamePlayer = function() {
-	var playerContainer = $('<div>').addClass('player');
+var createGamePlayer = function(i) {
+	var playerContainer = $('<div>').addClass('col-md-2 player');
 
 	var playerImg = $('<img>').attr('src', 'images/card_back.png');
 
-	var playerName = $('<p>').html()
+	var playerName = $('<p>').html('Player ' + (i + 1));
 
 	playerContainer.append(playerImg, playerName);
 
-	$('.players').append(playerContainer);
+	if (i !== 0) {
+		$('.players').append(playerContainer);
+	}
 	
 	return playerContainer;
 }
 
 var createAllPlayers = function(number) {
 	for (i = 0; i < number; i++) {
-		createGamePlayer();
+		createGamePlayer(i);
 	}
 }
 
@@ -43,7 +45,9 @@ var createUserHand = function(handSize) {
 var GAME_START;
 var startGameButton = function() {
 	$('.startButton').on('click', function() {
-		var numberOfPlayers = window.prompt("How many players would you like?");
+		var numberOfPlayers = window.prompt('How many players would you like?');
+		var playerName = window.prompt('Type your name');
+		$('.user').append($('<div><p>' + playerName + '</p></div>').addClass('col-md-1'));
 		createAllPlayers(numberOfPlayers);
 		GAME_START = new Game(numberOfPlayers);
 		createUserHand(5);
