@@ -8,7 +8,7 @@ var Game = function(numberOfPlayers) {
 		this.players.push(player);
 	}
 	//dealing cards 
-	while(this.players[this.players.length - 1].currentHand.length < 5) {
+	while (this.players[this.players.length - 1].currentHand.length < 5) {
 		for (var playerNumber = 0; playerNumber < numberOfPlayers; playerNumber++) {
 			this.players[playerNumber].currentHand.push(this.deck.cardList[0]);
 			this.deck.cardList.shift();
