@@ -1,63 +1,3 @@
-var Game = function(numberOfPlayers) {
-	this.start();
-	this.deck = new DeckOfCards();
-	this.players = [];
-	//creating players
-	for (playerNumber = 1; playerNumber <= numberOfPlayers; playerNumber++) {
-		var player = new Player (playerNumber, []);
-		this.players.push(player);
-	}
-	//dealing cards 
-	while (this.players[this.players.length - 1].currentHand.length < 5) {
-		for (var playerNumber = 0; playerNumber < numberOfPlayers; playerNumber++) {
-			this.players[playerNumber].currentHand.push(this.deck.cardList[0]);
-			this.deck.cardList.shift();
-		}
-	}
-
-
-	this.determineWinner()
-	this.end();
-}
-	var user = Game.players[0];
-	user.discard();
-
-Game.prototype.start = function() {
-	console.log("We're beginning a new game! Let the dealing begin.");
-}
-
-Game.prototype.end = function() {
-	console.log("Sadly, the game is now over :(");
-}
-
-Game.prototype.determineWinner = function() {
-	//once a hand is evaluated, determines: 
-	//1.) hand type/rank 2.) car numbers 3. next high card
-	var winner;
-	var bestHand;
-	var players = this.players;
-	for(player in players) {
-		var player = players[player]
-		var playerBestHand = player.bestHand();
-		console.log("all hands", playerBestHand);
-		if(bestHand === undefined || playerBestHand.rank > bestHand.rank) {
-			bestHand = playerBestHand;
-			winner = player.name;
-		} else if (playerBestHand.rank === bestHand.rank) {
-			if (playerBestHand.phantNum > bestHand.phantNum) {
-				bestHand = playerBestHand;
-				winner = player.name;
-			} else if (playerBestHand.phantNum === bestHand.phantNum) {
-				console.log("It's a tie! (for now...)")
-				return true;
-			}
-		}
-	}
-	console.log('The winner is player', winner);
-	console.log('Winning hand: ', bestHand.hand, bestHand.phant);
-	return winner;
-}
-
 var Player = function(name, currentHand, potentialHands) {
 	this.name = name;
 	this.currentHand = currentHand;
@@ -316,96 +256,30 @@ Player.prototype.bestHand = function() {
 	return bestHand;
 } 
 
+Player.prototype.createCardImg = function(cardNumber) {
+	var userCardContainer = $('<div>').addClass('col-md-1 ' + cardNumber);
+	$('.user').append(userCardContainer);
+	var userCardImg = this.currentHand[cardNumber].image;
+	userCardImg.addClass('card' + cardNumber.toString());
+	$('.' + cardNumber).append(userCardImg);
+}
+
+Player.prototype.createHandImg = function(handSize) {
+	for (var i = 0; i < handSize; i++) {
+		this.createCardImg(i);
+	}
+}
+
 Player.prototype.discard = function() {
 	window.alert('click up to three cards to discard');
-	var discardChoice = $('.0, .1, .2, .3, .4');
-
-	console.log(discardChoice);
-	$('.0, .1, .2, .3, .4').on('click', function(event) {
+	var discardChoice = $('.0, .1, .2, .3, .4').on('click', function(event) {
 		console.log('hi', event.target);
-	// var discardChoice = $('.0, .1, .2, .3, .4').on('click', function(event) {
-	// 	console.log('hi', event.target);
-		// $(event.target).css('margin-top', '25px');
+		$(event.target).css('margin-top', '25px');
 	})
 }
 
-var Card = function(name, number, suit, phantomNumber) {
-	this.name = name;
-	this.number = number;
-	this.phantomNumber = phantomNumber;
-	this.suit = suit;
-}
-
-var DeckOfCards = function(numberOfCards, cardList) {
-	this.numberOfCards = numberOfCards;
-	this.cardList = cardList;
-	this.create();
-	this.shuffle();
-}
-
-DeckOfCards.prototype.create = function() {
-	var cardList = [];
-	var faceCards = ["jack", "queen", "king", "ace"];
-	var suits = ["clubs", "diamonds", "hearts", "spades"];
-	var cardCounter = 1 
-	for(var i = 0; i < suits.length; i++) {	
-		for(var cardNumber = 2; cardNumber <= 10; cardNumber++) {
-			var card = new Card (cardCounter, cardNumber, suits[i], cardNumber, i);
-			card.image = $('<img>').attr('src', 'images/' + card.suit + '/' + card.number + '.png')
-			cardList.push(card);
-			cardCounter += 1;
-		}
-		for(var faceCardIndex = 0; faceCardIndex < faceCards.length; faceCardIndex++) {
-			var card = new Card (cardCounter, faceCards[faceCardIndex], suits[i], (faceCardIndex + 11), faceCardIndex);
-			card.image = $('<img>').attr('src', 'images/' + card.suit + '/' + card.number + '.png')
-			cardList.push(card);
-			cardCounter += 1;
-		}
-	}
-	this.cardList = cardList;
-	this.numberOfCards = cardList.length;
-}
-
-function isIncluded(element, list) {
-	for (var i = 0; i <= list.length; i++) {
-		if (list[i] === element) {
-			return true;
-		}
-	}
-	return false;
-}
-
-function addOnlyNovelNumbersToList(number, list) {
-	isIncluded(number, list) ? addOnlyNovelNumbersToList(randomCardNumber(), list) : list.push(number);
-}
-
-function randomCardNumber() {
-	return Math.floor(Math.random() * 52);
-}
-
-DeckOfCards.prototype.shuffle = function() {
-	var deck             = this.cardList;
-	var shuffled         = [];
-	var randomNumberList = [];
-
-	for (i = 1; i <= 52; i++) {
-		addOnlyNovelNumbersToList(randomCardNumber(), randomNumberList);
-	}
-	
-	deck.forEach(function(card, cardIndex, deck) {
-		shuffled.push(deck[randomNumberList[cardIndex]]);
-	}); 
-
-	this.cardList = shuffled;
-}
 
 
-
-// var game1 = new Game(2);
-// game1.start();
-// // game1.players[0].bestHand();
-// game1.determineWinner();
-// game1.end();
 
 
 

@@ -33,28 +33,6 @@ var createStartButton = function() {
 }
 createStartButton();
 
-var createUserCard = function(cardNumber) {
-	var userCardContainer = $('<div>').addClass('col-md-1 ' + cardNumber);
-	$('.user').append(userCardContainer);
-	var userCardImg = GAME_START.players[0].currentHand[cardNumber].image;
-	userCardImg.addClass('card' + cardNumber.toString());
-	$('.' + cardNumber).append(userCardImg);
-}
-
-var createUserHand = function(handSize) {
-	for (var i = 0; i < handSize; i++) {
-		createUserCard(i);
-	}
-}
-
-var userDiscard = function(handSize) {
-	window.alert('click up to three cards to discard');
-	var discardChoices = [];	
-	var discardChoice = $('.0, .1, .2, .3, .4').on('click', function(event) {
-		$(this).css('margin-top', '25px');
-	})
-}
-
 var GAME_START;
 var startGameButton = function() {
 	$('.startButton').on('click', function() {
@@ -63,12 +41,11 @@ var startGameButton = function() {
 		$('.user').append($('<div><p>' + playerName + '</p></div>').addClass('col-md-1'));
 		createAllPlayers(numberOfPlayers);
 		GAME_START = new Game(numberOfPlayers);
-		createUserHand(5);
-		userDiscard();
 	})
 }
-startGameButton();
-
+$('document').ready(function() {
+	startGameButton();
+})
 var createDiscardButton = function() {
 	var discardButton = $('<a>').addClass('btn btn-warning discardButton').html('Click to discard selected cards');
 	$('.buttonContainer').append(discardButton);
