@@ -36,6 +36,11 @@ createStartButton();
 var GAME_START;
 var startGameButton = function() {
 	$('.startButton').on('click', function() {
+		$('.players, .user').remove();
+		var players = $('<div>').addClass('row players');
+		$('.container-fluid').append(players);
+		var players = $('<div>').addClass('row user');
+		$('.container-fluid').append(players);
 		var numberOfPlayers = window.prompt('How many players would you like?');
 		var playerName = window.prompt('Type your name');
 		$('.user').append($('<div><p>' + playerName + '</p></div>').addClass('col-md-1'));

@@ -1,22 +1,7 @@
-/*.top {
-	height: 100px;
-}
-
-.pokerTable {
-	width: 1200px;
-	height: 800px;
-	background: green;
-	border-radius: 500px;
-}*/
-
 .player {
 	float: left;
 	margin: 20px;
 } 
-
-/*.container-fluid {
-	padding-left: 0px !important;  
-}*/
 
 body {
 	background: url('../images/pokerTable.png');
