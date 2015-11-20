@@ -52,17 +52,6 @@ var createDiscardButton = function() {
 }
 createDiscardButton();
 
-// var discardButton = function() {
-// 	$('.discardButton').on('click', function() {
-// 		var numberOfPlayers = window.prompt('How many players would you like?');
-// 		var playerName = window.prompt('Type your name');
-// 		$('.user').append($('<div><p>' + playerName + '</p></div>').addClass('col-md-1'));
-// 		createAllPlayers(numberOfPlayers);
-// 		GAME_START = new Game(numberOfPlayers);
-// 		createUserHand(5);
-// 	})
-// }
-// startGameButton();
 
 
 

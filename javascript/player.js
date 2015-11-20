@@ -2,6 +2,8 @@ var Player = function(name, currentHand, potentialHands) {
 	this.name = name;
 	this.currentHand = currentHand;
 	this.potentialHands = potentialHands
+	this.discards = [];
+	this.numberOfDiscards = 0;
 }
 
 Player.prototype.discardAndDraw = function() {
@@ -9,7 +11,7 @@ Player.prototype.discardAndDraw = function() {
 }
 
 Player.prototype.lookAtDetailedCards = function() {
-	var sortedHand = this.currentHand.sort(function(a, b) {
+	var sortedHand = this.currentHand.slice().sort(function(a, b) {
 		return a.phantomNumber - b.phantomNumber;
 	});
 	return sortedHand;
@@ -126,27 +128,27 @@ Player.prototype.evaluateHand = function() {
 	function isXofKind() {
 		var cardsSeen = [];	
 		for (i = 0; i < sortedHand.length; i++) {
-			cardNumber = getCardNumber(i);
+			cardIndex = getCardNumber(i);
 			phantomNumber = getPhantomNumber(i);
-			if (cardNumber === threeOfKind.value) {
-				fourOfKind.value = cardNumber;
+			if (cardIndex === threeOfKind.value) {
+				fourOfKind.value = cardIndex;
 				fourOfKind.phantNum = phantomNumber;
 			}
-			else if (cardNumber === pair1.value || cardNumber === pair2.value) {
-				threeOfKind.value = cardNumber;
+			else if (cardIndex === pair1.value || cardIndex === pair2.value) {
+				threeOfKind.value = cardIndex;
 				threeOfKind.phantNum = phantomNumber;
 			}
-			else if (isIncluded(cardNumber, cardsSeen) && pair1.value !== false && cardNumber !== pair1.value) {
-				pair2.value = cardNumber;
+			else if (isIncluded(cardIndex, cardsSeen) && pair1.value !== false && cardIndex !== pair1.value) {
+				pair2.value = cardIndex;
 				pair2.phantNum = phantomNumber;
 				twoPair.value = [pair1.value, pair2.value];
 				twoPair.phantNum = [pair1.phantNum, pair2.phantNum];
 			}
-			else if (isIncluded(cardNumber, cardsSeen)) {
-				pair1.value = cardNumber;
+			else if (isIncluded(cardIndex, cardsSeen)) {
+				pair1.value = cardIndex;
 				pair1.phantNum = phantomNumber;
 			} 	
-			cardsSeen.push(cardNumber);
+			cardsSeen.push(cardIndex);
 		}	
 	}
 	isXofKind();
@@ -248,20 +250,26 @@ Player.prototype.bestHand = function() {
 	var bestHand;
 	var i = 0;
 	for (eachHand in potentialHands) {
-		var currentHand = potentialHands[eachHand];
-		if (currentHand.value) {
+		var hand = potentialHands[eachHand];
+		if (hand.value) {
 			bestHand = potentialHands[eachHand];
 		}
 	}
 	return bestHand;
 } 
 
-Player.prototype.createCardImg = function(cardNumber) {
-	var userCardContainer = $('<div>').addClass('col-md-1 ' + cardNumber);
+Player.prototype.createCardImg = function(cardIndex) {
+	var userCardContainer = $('<div>').addClass('col-md-1 ' + 'card' + cardIndex);
 	$('.user').append(userCardContainer);
-	var userCardImg = this.currentHand[cardNumber].image;
-	userCardImg.addClass('card' + cardNumber.toString());
-	$('.' + cardNumber).append(userCardImg);
+	var userCardImg = this.currentHand[cardIndex].image;
+	userCardImg.addClass(cardIndex.toString());
+	$('.card' + cardIndex).append(userCardImg);
+}
+
+Player.prototype.replaceCardImg = function(cardIndex) {
+	var userCardImg = this.currentHand[cardIndex].image;
+	userCardImg.addClass(cardIndex.toString());
+	$('.card' + cardIndex).append(userCardImg);
 }
 
 Player.prototype.createHandImg = function(handSize) {
@@ -270,13 +278,18 @@ Player.prototype.createHandImg = function(handSize) {
 	}
 }
 
-Player.prototype.discard = function() {
-	window.alert('click up to three cards to discard');
-	var discardChoice = $('.0, .1, .2, .3, .4').on('click', function(event) {
-		console.log('hi', event.target);
-		$(event.target).css('margin-top', '25px');
+Player.prototype.selectDiscard = function() {
+	var _this = this;
+	window.alert('click up to three cards to discard');	
+	$('.0, .1, .2, .3, .4').on('click', function(event) {
+		if(_this.discards.length < 3) {
+			$(event.target).css('margin-top', '25px');
+			var discarded = $(event.target).attr('class');
+			_this.discards.push(discarded);
+		}
 	})
 }
+
 
 
 

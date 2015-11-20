@@ -17,10 +17,8 @@ var Game = function(numberOfPlayers) {
 	var user = this.players[0];
 	user.createHandImg(5);
 	
-	user.discard();
-
-	this.determineWinner()
-	this.end();
+	user.selectDiscard();
+	this.discard();
 }
 	
 
@@ -41,7 +39,7 @@ Game.prototype.determineWinner = function() {
 	for(player in players) {
 		var player = players[player]
 		var playerBestHand = player.bestHand();
-		console.log("all hands", playerBestHand);
+		// console.log("all hands", playerBestHand);
 		if(bestHand === undefined || playerBestHand.rank > bestHand.rank) {
 			bestHand = playerBestHand;
 			winner = player.name;
@@ -59,3 +57,30 @@ Game.prototype.determineWinner = function() {
 	console.log('Winning hand: ', bestHand.hand, bestHand.phant);
 	return winner;
 }
+
+Game.prototype.discard = function() {
+	var _this = this;
+	var user = this.players[0]
+	var userDiscardNum = user.numberOfDiscards
+	var discards = user.discards;
+	var userHand = user.currentHand;
+	var deck = this.deck.cardList;
+	$('.discardButton').on('click', function(event) {
+		if (userDiscardNum < 1) {
+			userDiscardNum += 1;
+			for(i in discards) {
+				var handIndex = discards[i];
+				userHand[handIndex] = deck.shift();
+				console.log(event.target);
+				$('.' + handIndex).remove();
+				user.replaceCardImg(handIndex);
+			}
+			console.log(userHand);
+			_this.determineWinner()
+			_this.end();
+		}	
+	})
+}
+
+
+//make discard on game, game discards for players
