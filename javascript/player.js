@@ -282,11 +282,9 @@ Player.prototype.selectDiscard = function() {
 	var _this = this;
 	window.alert('click up to three cards to discard');	
 	$('.0, .1, .2, .3, .4').on('click', function(event) {
-		if(_this.discards.length < 3) {
-			$(event.target).css('margin-top', '25px');
-			var discarded = $(event.target).attr('class');
-			_this.discards.push(discarded);
-		}
+		$(event.target).css('margin-top', '25px');
+		var discarded = $(event.target).attr('class');
+		_this.discards.push(discarded);
 	})
 }
 
