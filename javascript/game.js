@@ -53,6 +53,11 @@ Game.prototype.determineWinner = function() {
 			}
 		}
 	}
+
+	var showWinner = $('<div><p class=\'winner\'>').addClass('col-md-2');
+	$('.container-fluid').append(showWinner);
+	$('.winner').html('The winner is player ' + winner + ' with a ' + bestHand.hand);
+
 	console.log('The winner is player', winner);
 	console.log('Winning hand: ', bestHand.hand, bestHand.phant);
 	return winner;
