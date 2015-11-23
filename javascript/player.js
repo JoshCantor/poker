@@ -280,7 +280,7 @@ Player.prototype.createHandImg = function(handSize) {
 
 Player.prototype.selectDiscard = function() {
 	var _this = this;
-	window.alert('click up to three cards to discard');	
+	window.alert('click to select discards');	
 	$('.0, .1, .2, .3, .4').on('click', function(event) {
 		$(event.target).css('margin-top', '25px');
 		var discarded = $(event.target).attr('class');
