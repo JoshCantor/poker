@@ -17,16 +17,6 @@ Player.prototype.lookAtDetailedCards = function() {
 	return sortedHand;
 }
 
-Player.prototype.lookAtSimpleCards = function() {
-	var sortedHand = this.lookAtDetailedCards();
-	var hand = []
-	for (card in sortedHand) {
-		hand.push([sortedHand[card].number, sortedHand[card].suit]);
-	}
-	return hand;
-}
-
-
 Player.prototype.evaluateHand = function() {
 	// for testing straights/straight flushes
 	// game1.players[0].currentHand[0].number = 10;
@@ -177,7 +167,7 @@ Player.prototype.evaluateHand = function() {
 	isFlush(); 
 
 	function isStraight() {
-		for (var i = 0; i <= sortedHand.length - 2; i++) {
+		for (var i = 0; i < sortedHand.length - 1; i++) {
 			if (sortedHand[i + 1].phantomNumber === sortedHand[i].phantomNumber + 1) {
 				if (i === sortedHand.length - 2) {
 					straight.value = [sortedHand[0].number, sortedHand[4].number];
