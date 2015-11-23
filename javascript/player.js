@@ -72,7 +72,7 @@ Player.prototype.evaluateHand = function() {
 	};
 
 	var threeOfKind = {
-		hand: 'Three Of a Kind',
+		hand: 'Three of a Kind',
 		value: false,
 		rank: 3
 	};
@@ -84,7 +84,7 @@ Player.prototype.evaluateHand = function() {
 	};
 
 	var fourOfKind = {
-		hand: 'Four Of a Kind',
+		hand: 'Four of a Kind',
 		value: false,
 		rank: 5
 	};

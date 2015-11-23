@@ -58,6 +58,50 @@ Game.prototype.determineWinner = function() {
 	return winner;
 }
 
+
+Game.prototype.computerDiscard = function(){
+	var players = this.players;
+	for (player = 1; player < players.length; player++) {
+		var currentPlayer = players[player];
+		var bestHand = currentPlayer.bestHand();
+		var bestHandType = bestHand.hand;
+		var bestHandValue = bestHand.value;
+		var currentFullHand = players[player].currentHand;
+		var deck = this.deck.cardList;
+		
+		if (bestHandType === 'Royal Flush' || bestHandType === 'Straight Flush' || bestHandType === 'Flush' || bestHandType === 'Straight' || bestHandType === 'Full House') {
+			return;
+		} else if (bestHandType === 'Two Pair') {
+			for (card = 0; card < currentFullHand.length; card++) {
+				var currentCard = currentFullHand[card];
+				var currentCardValue = currentCard.number;
+				if (bestHandValue[0] !== currentCardValue || bestHandValue[1] !== currentCardValue) {
+					var discards = currentPlayer.discards;
+					discards.push(card);
+					for(i in discards) {
+						var handIndex = discards[i];
+						currentFullHand[handIndex] = deck.shift();
+					}
+				}
+			}
+		} else {
+			for (card = 0; card < currentFullHand.length; card++) {
+				var currentCard = currentFullHand[card];
+				var currentCardValue = currentCard.number;
+				if (bestHandValue !== currentCardValue) {
+					var discards = currentPlayer.discards;
+					discards.push(card);
+					for(i in discards) {
+						var handIndex = discards[i];
+						currentFullHand[handIndex] = deck.shift();
+					}
+				}
+			}
+		}
+	}
+
+}
+
 Game.prototype.discard = function() {
 	var _this = this;
 	var user = this.players[0]
@@ -76,11 +120,9 @@ Game.prototype.discard = function() {
 				user.replaceCardImg(handIndex);
 			}
 			console.log(userHand);
-			_this.determineWinner()
+			_this.computerDiscard();
+			_this.determineWinner();
 			_this.end();
 		}	
 	})
 }
-
-
-//make discard on game, game discards for players
