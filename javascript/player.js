@@ -288,11 +288,17 @@ Player.prototype.selectDiscard = function() {
 	})
 }
 
+Player.prototype.createWinningCardImg = function(cardIndex) {
+	var winnerCardContainer = $('<div>').addClass('col-md-1 ' + 'winningCard' + cardIndex);
+	$('.winningHand').append(winnerCardContainer);
+	var winningCardImg = this.currentHand[cardIndex].image;
+	$('.winningCard' + cardIndex).append(winningCardImg);
+}
 
-
-
-
-
-
+Player.prototype.createWinningHandImg = function(handSize) {
+	for (var i = 0; i < handSize; i++) {
+		this.createWinningCardImg(i);
+	}
+}
 
 

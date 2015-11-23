@@ -15,7 +15,7 @@ var Game = function(numberOfPlayers) {
 		}
 	}
 	var user = this.players[0];
-	user.createHandImg(5);
+	user.createHandImg(user.currentHand.length);
 	
 	user.selectDiscard();
 	this.discard();
@@ -54,15 +54,19 @@ Game.prototype.determineWinner = function() {
 		}
 	}
 
-	var showWinner = $('<div><p class=\'winner\'>').addClass('col-md-2');
-	$('.container-fluid').append(showWinner);
-	$('.winner').html('The winner is player ' + winner + ' with a ' + bestHand.hand);
+	var winningPlayer = players[winner - 1];
+	var showWinner = $('<div class=\'col-md-2\'><p class=\'winner\'>');
+	$('.winningHand').append(showWinner);
+	
+	if (winningPlayer === 1) {
+		$('.winner').html('You won!');
+	} else {
+		$('.winner').html('The winner is player ' + winner + ' with a ' + bestHand.hand);
+		winningPlayer.createWinningHandImg(winningPlayer.currentHand.length);
+	};
 
-	console.log('The winner is player', winner);
-	console.log('Winning hand: ', bestHand.hand, bestHand.phant);
 	return winner;
 }
-
 
 Game.prototype.computerDiscard = function(){
 	var players = this.players;

@@ -39,8 +39,10 @@ var startGameButton = function() {
 		$('.players, .user').remove();
 		var players = $('<div>').addClass('row players');
 		$('.container-fluid').append(players);
-		var players = $('<div>').addClass('row user');
-		$('.container-fluid').append(players);
+		var user = $('<div>').addClass('row user');
+		$('.container-fluid').append(user);
+		var winningHand = $('<div>').addClass('row winningHand');
+		$('.container-fluid').append(winningHand);
 		var numberOfPlayers = window.prompt('How many players would you like?');
 		var playerName = window.prompt('Type your name');
 		$('.user').append($('<div><p>' + playerName + '</p></div>').addClass('col-md-1'));
