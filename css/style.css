@@ -6,3 +6,7 @@
 body {
 	background: url('../images/pokerTable.png');
 }
+
+p {
+	color: white;
+}

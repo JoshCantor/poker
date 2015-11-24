@@ -39,6 +39,7 @@ Game.prototype.determineWinner = function() {
 	for(player in players) {
 		var player = players[player]
 		var playerBestHand = player.bestHand();
+		console.log('best', playerBestHand);
 		// console.log("all hands", playerBestHand);
 		if(bestHand === undefined || playerBestHand.rank > bestHand.rank) {
 			bestHand = playerBestHand;
@@ -48,7 +49,7 @@ Game.prototype.determineWinner = function() {
 				bestHand = playerBestHand;
 				winner = player.name;
 			} else if (playerBestHand.phantNum === bestHand.phantNum) {
-				console.log("It's a tie! (for now...)")
+				winner = 'tie';
 				return true;
 			}
 		}
@@ -60,6 +61,8 @@ Game.prototype.determineWinner = function() {
 	
 	if (winningPlayer === 1) {
 		$('.winner').html('You won!');
+	} else if (winner === 'tie') {
+		$('.winner').html('It\'s a tie! (for now...)');
 	} else {
 		$('.winner').html('The winner is player ' + winner + ' with a ' + bestHand.hand);
 		winningPlayer.createWinningHandImg(winningPlayer.currentHand.length);

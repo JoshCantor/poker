@@ -43,6 +43,7 @@ Player.prototype.evaluateHand = function() {
 	//sort hand by number
 	var sortedHand = this.lookAtDetailedCards();
 	var highCard = sortedHand[4].number;
+	console.log('fifth card', sortedHand[4]);
 	
 	var potentialHands = [
 			{

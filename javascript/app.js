@@ -36,7 +36,7 @@ createStartButton();
 var GAME_START;
 var startGameButton = function() {
 	$('.startButton').on('click', function() {
-		$('.players, .user').remove();
+		$('.players, .user, .winningHand').remove();
 		var players = $('<div>').addClass('row players');
 		$('.container-fluid').append(players);
 		var user = $('<div>').addClass('row user');
