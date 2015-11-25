@@ -43,7 +43,6 @@ Player.prototype.evaluateHand = function() {
 	//sort hand by number
 	var sortedHand = this.lookAtDetailedCards();
 	var highCard = sortedHand[4].number;
-	console.log('fifth card', sortedHand[4]);
 	
 	var potentialHands = [
 			{
@@ -169,7 +168,6 @@ Player.prototype.evaluateHand = function() {
 	function isFlush() {
 		for (i = 0; i <= sortedHand.length - 2; i++) {
 			if (getCardSuit(i + 1) !== getCardSuit(i)) {
-				console.log(getCardSuit(i + 1, i);
 				return false
 			}
 		}
