@@ -171,7 +171,6 @@ Player.prototype.evaluateHand = function() {
 			if (sortedHand[i + 1].phantomNumber === sortedHand[i].phantomNumber + 1) {
 				if (i === sortedHand.length - 2) {
 					straight.value = [sortedHand[0].number, sortedHand[4].number];
-					return true;
 				}
 			} else {
 				break;
