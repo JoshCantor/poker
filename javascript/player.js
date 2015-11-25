@@ -231,7 +231,6 @@ Player.prototype.evaluateHand = function() {
 	potentialHands.push(straightFlush);
 	potentialHands.push(royalFlush);
 
-	console.log(potentialHands);
 	return potentialHands;
 }	
 

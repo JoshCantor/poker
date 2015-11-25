@@ -8,7 +8,7 @@ var createGamePlayer = function(i) {
 
 	var playerImg = $('<img>').attr('src', 'images/card_back.png');
 
-	var playerName = $('<p>').html('Player ' + (i + 1));
+	var playerName = $('<p>').html('Computer Player ' + (i + 1));
 
 	playerContainer.append(playerImg, playerName);
 
@@ -43,8 +43,8 @@ var startGameButton = function() {
 		$('.container-fluid').append(user);
 		var winningHand = $('<div>').addClass('row winningHand');
 		$('.container-fluid').append(winningHand);
-		var numberOfPlayers = window.prompt('How many players would you like?');
-		var playerName = window.prompt('Type your name');
+		var numberOfPlayers = window.prompt('How many other players would you like?');
+		var playerName = window.prompt('What\'s your name?');
 		$('.user').append($('<div><p>' + playerName + '</p></div>').addClass('col-md-1'));
 		createAllPlayers(numberOfPlayers);
 		GAME_START = new Game(numberOfPlayers);

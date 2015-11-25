@@ -39,8 +39,6 @@ Game.prototype.determineWinner = function() {
 	for(player in players) {
 		var player = players[player]
 		var playerBestHand = player.bestHand();
-		console.log('best', playerBestHand);
-		// console.log("all hands", playerBestHand);
 		if(bestHand === undefined || playerBestHand.rank > bestHand.rank) {
 			bestHand = playerBestHand;
 			winner = player.name;
@@ -59,7 +57,7 @@ Game.prototype.determineWinner = function() {
 	var showWinner = $('<div class=\'col-md-2\'><p class=\'winner\'>');
 	$('.winningHand').append(showWinner);
 	
-	if (winningPlayer === 1) {
+	if (winningPlayer === 0) {
 		$('.winner').html('You won!');
 	} else if (winner === 'tie') {
 		$('.winner').html('It\'s a tie! (for now...)');
@@ -73,45 +71,48 @@ Game.prototype.determineWinner = function() {
 
 Game.prototype.computerDiscard = function(){
 	var players = this.players;
+	console.log('original', players[1]);
 	for (player = 1; player < players.length; player++) {
 		var currentPlayer = players[player];
 		var bestHand = currentPlayer.bestHand();
+		console.log('player best', player, bestHand)
 		var bestHandType = bestHand.hand;
 		var bestHandValue = bestHand.value;
 		var currentFullHand = players[player].currentHand;
 		var deck = this.deck.cardList;
-		
 		if (bestHandType === 'Royal Flush' || bestHandType === 'Straight Flush' || bestHandType === 'Flush' || bestHandType === 'Straight' || bestHandType === 'Full House') {
 			return;
 		} else if (bestHandType === 'Two Pair') {
 			for (card = 0; card < currentFullHand.length; card++) {
 				var currentCard = currentFullHand[card];
 				var currentCardValue = currentCard.number;
+				var discards = currentPlayer.discards;
 				if (bestHandValue[0] !== currentCardValue || bestHandValue[1] !== currentCardValue) {
-					var discards = currentPlayer.discards;
 					discards.push(card);
-					for(i in discards) {
-						var handIndex = discards[i];
-						currentFullHand[handIndex] = deck.shift();
-					}
+				}
+				for(i in discards) {
+					var handIndex = discards[i];
+					currentFullHand[handIndex] = deck.shift();
 				}
 			}
 		} else {
 			for (card = 0; card < currentFullHand.length; card++) {
 				var currentCard = currentFullHand[card];
 				var currentCardValue = currentCard.number;
+				var discards = currentPlayer.discards;
 				if (bestHandValue !== currentCardValue) {
-					var discards = currentPlayer.discards;
 					discards.push(card);
-					for(i in discards) {
-						var handIndex = discards[i];
-						currentFullHand[handIndex] = deck.shift();
-					}
 				}
+			}
+			for (i in discards) {
+				var handIndex = discards[i];
+				console.log(handIndex, currentFullHand[handIndex])
+				currentFullHand[handIndex] = deck.shift();
+				console.log(handIndex, currentFullHand[handIndex])
+				console.log('new', i, player, currentFullHand);
 			}
 		}
 	}
-
 }
 
 Game.prototype.discard = function() {
@@ -127,11 +128,9 @@ Game.prototype.discard = function() {
 			for(i in discards) {
 				var handIndex = discards[i];
 				userHand[handIndex] = deck.shift();
-				console.log(event.target);
 				$('.' + handIndex).remove();
 				user.replaceCardImg(handIndex);
 			}
-			console.log(userHand);
 			_this.computerDiscard();
 			_this.determineWinner();
 			_this.end();
