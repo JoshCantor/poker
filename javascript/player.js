@@ -169,6 +169,7 @@ Player.prototype.evaluateHand = function() {
 	function isFlush() {
 		for (i = 0; i <= sortedHand.length - 2; i++) {
 			if (getCardSuit(i + 1) !== getCardSuit(i)) {
+				console.log(getCardSuit(i + 1, i);
 				return false
 			}
 		}
@@ -243,6 +244,7 @@ Player.prototype.evaluateHand = function() {
 	potentialHands.push(straightFlush);
 	potentialHands.push(royalFlush);
 
+	console.log(potentialHands);
 	return potentialHands;
 }	
 
