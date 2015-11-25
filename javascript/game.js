@@ -31,8 +31,6 @@ Game.prototype.end = function() {
 }
 
 Game.prototype.determineWinner = function() {
-	//once a hand is evaluated, determines: 
-	//1.) hand type/rank 2.) car numbers 3. next high card
 	var winner;
 	var bestHand;
 	var players = this.players;
@@ -62,7 +60,7 @@ Game.prototype.determineWinner = function() {
 	} else if (winner === 'tie') {
 		$('.winner').html('It\'s a tie! (for now...)');
 	} else {
-		$('.winner').html('The winner is player ' + winner + ' with a ' + bestHand.hand);
+		$('.winner').html('The winner is player ' + winner  + ' with a ' + bestHand.hand);
 		winningPlayer.createWinningHandImg(winningPlayer.currentHand.length);
 	};
 
@@ -71,11 +69,9 @@ Game.prototype.determineWinner = function() {
 
 Game.prototype.computerDiscard = function(){
 	var players = this.players;
-	console.log('original', players[1]);
 	for (player = 1; player < players.length; player++) {
 		var currentPlayer = players[player];
 		var bestHand = currentPlayer.bestHand();
-		console.log('player best', player, bestHand)
 		var bestHandType = bestHand.hand;
 		var bestHandValue = bestHand.value;
 		var currentFullHand = players[player].currentHand;
@@ -106,10 +102,7 @@ Game.prototype.computerDiscard = function(){
 			}
 			for (i in discards) {
 				var handIndex = discards[i];
-				console.log(handIndex, currentFullHand[handIndex])
 				currentFullHand[handIndex] = deck.shift();
-				console.log(handIndex, currentFullHand[handIndex])
-				console.log('new', i, player, currentFullHand);
 			}
 		}
 	}
@@ -131,6 +124,7 @@ Game.prototype.discard = function() {
 				$('.' + handIndex).remove();
 				user.replaceCardImg(handIndex);
 			}
+			console.log('waaaay before', _this.players[1].currentHand);
 			_this.computerDiscard();
 			_this.determineWinner();
 			_this.end();
