@@ -8,7 +8,7 @@ var createGamePlayer = function(i) {
 
 	var playerImg = $('<img>').attr('src', 'images/card_back.png');
 
-	var playerName = $('<p>').html('Computer Player ' + (i + 1));
+	var playerName = $('<p>').html('Computer Player ' + (i));
 
 	playerContainer.append(playerImg, playerName);
 
@@ -28,7 +28,7 @@ var createAllPlayers = function(number) {
 var createStartButton = function() {
 	var buttonContainer = $('<div>').addClass('col-md-6 buttonContainer')
 	$('.buttons').append(buttonContainer);
-	var startButton = $('<a>').addClass('btn btn-info startButton').html('Click to start!');
+	var startButton = $('<a>').addClass('btn btn-info startButton').html('CLICK TO START A NEW GAME');
 	$('.buttonContainer').append(startButton);
 }
 createStartButton();
@@ -43,18 +43,20 @@ var startGameButton = function() {
 		$('.container-fluid').append(user);
 		var winningHand = $('<div>').addClass('row winningHand');
 		$('.container-fluid').append(winningHand);
-		var numberOfPlayers = window.prompt('How many other players would you like?');
-		var playerName = window.prompt('What\'s your name?');
+		var numberOfComputerPlayers = window.prompt('HOW MANY COMPUTER PLAYERS WOULD YOU LIKE?');
+		var totalNumberOfPlayers = Number(numberOfComputerPlayers) + 1;
+		var playerName = window.prompt('WHAT\'S YOUR NAME?');
 		$('.user').append($('<div><p>' + playerName + '</p></div>').addClass('col-md-1'));
-		createAllPlayers(numberOfPlayers);
-		GAME_START = new Game(numberOfPlayers);
+		createAllPlayers(totalNumberOfPlayers);
+		GAME_START = new Game(totalNumberOfPlayers);
+		
 	})
 }
 $('document').ready(function() {
 	startGameButton();
 })
 var createDiscardButton = function() {
-	var discardButton = $('<a>').addClass('btn btn-warning discardButton').html('Click to discard selected cards');
+	var discardButton = $('<a>').addClass('btn btn-warning discardButton').html('DISCARD');
 	$('.buttonContainer').append(discardButton);
 }
 createDiscardButton();

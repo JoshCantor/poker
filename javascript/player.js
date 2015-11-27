@@ -32,14 +32,16 @@ Player.prototype.evaluateHand = function() {
 
 	//sort hand by number
 	var sortedHand = this.lookAtDetailedCards();
-	var highCard = sortedHand[4].number;
+
+	var highCard = sortedHand[4];
 	
 	var potentialHands = [
 			{
 				hand: 'High Card',
-				value: highCard,
+				value: highCard.number,
 				sortedHand: sortedHand,
-				rank: 0
+				rank: 0,
+				phantNum: highCard.phantomNumber
 
 			}
 	];
@@ -269,7 +271,7 @@ Player.prototype.createHandImg = function(handSize) {
 
 Player.prototype.selectDiscard = function() {
 	var _this = this;
-	window.alert('click to select discards');	
+	window.alert('CLICK EACH CARD YOU WOULD LIKE TO DISCARD, THEN CLICK THE \'DISCARD\' BUTTON');	
 	$('.0, .1, .2, .3, .4').on('click', function(event) {
 		$(event.target).css('margin-top', '25px');
 		var discarded = $(event.target).attr('class');

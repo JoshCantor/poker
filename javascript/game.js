@@ -35,33 +35,33 @@ Game.prototype.determineWinner = function() {
 	var bestHand;
 	var players = this.players;
 	for(player in players) {
-		var player = players[player]
-		var playerBestHand = player.bestHand();
-		if(bestHand === undefined || playerBestHand.rank > bestHand.rank) {
-			bestHand = playerBestHand;
-			winner = player.name;
-		} else if (playerBestHand.rank === bestHand.rank) {
-			if (playerBestHand.phantNum > bestHand.phantNum) {
-				bestHand = playerBestHand;
-				winner = player.name;
-			} else if (playerBestHand.phantNum === bestHand.phantNum) {
+		var currentPlayer = players[player]
+		var currentPlayerBestHand = currentPlayer.bestHand();
+		console.log(player, currentPlayerBestHand);
+		if(bestHand === undefined || currentPlayerBestHand.rank > bestHand.rank) {
+			bestHand = currentPlayerBestHand;
+			winner = currentPlayer.name;
+		} else if (currentPlayerBestHand.rank === bestHand.rank) {
+			if (currentPlayerBestHand.phantNum > bestHand.phantNum) {
+				bestHand = currentPlayerBestHand;
+				winner = currentPlayer.name;
+			} else if (currentPlayerBestHand.phantNum === bestHand.phantNum) {
 				winner = 'tie';
-				return true;
 			}
 		}
 	}
 
-	var winningPlayer = players[winner - 1];
+	var winningPlayerIndex = players[winner - 1];
 	var showWinner = $('<div class=\'col-md-2\'><p class=\'winner\'>');
 	$('.winningHand').append(showWinner);
 	
-	if (winningPlayer === 0) {
+	if (winningPlayerIndex === 0) {
 		$('.winner').html('You won!');
 	} else if (winner === 'tie') {
 		$('.winner').html('It\'s a tie! (for now...)');
 	} else {
-		$('.winner').html('The winner is player ' + winner  + ' with a ' + bestHand.hand);
-		winningPlayer.createWinningHandImg(winningPlayer.currentHand.length);
+		$('.winner').html('The winner is computer player ' + Number(winningPlayerIndex.name) - 1 + ' with a ' + bestHand.hand);
+		winningPlayerIndex.createWinningHandImg(winningPlayerIndex.currentHand.length);
 	};
 
 	return winner;
@@ -79,6 +79,7 @@ Game.prototype.computerDiscard = function(){
 		if (bestHandType === 'Royal Flush' || bestHandType === 'Straight Flush' || bestHandType === 'Flush' || bestHandType === 'Straight' || bestHandType === 'Full House') {
 			return;
 		} else if (bestHandType === 'Two Pair') {
+			console.log('twoPair Full Hand before', currentFullHand);
 			for (card = 0; card < currentFullHand.length; card++) {
 				var currentCard = currentFullHand[card];
 				var currentCardValue = currentCard.number;
