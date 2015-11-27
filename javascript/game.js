@@ -51,17 +51,23 @@ Game.prototype.determineWinner = function() {
 		}
 	}
 
-	var winningPlayerIndex = players[winner - 1];
+	var winningPlayer = players[winner - 1];
+	console.log(winningPlayer);
 	var showWinner = $('<div class=\'col-md-2\'><p class=\'winner\'>');
 	$('.winningHand').append(showWinner);
 	
-	if (winningPlayerIndex === 0) {
+	if (winningPlayer === 1) {
 		$('.winner').html('You won!');
 	} else if (winner === 'tie') {
 		$('.winner').html('It\'s a tie! (for now...)');
 	} else {
-		$('.winner').html('The winner is computer player ' + Number(winningPlayerIndex.name) - 1 + ' with a ' + bestHand.hand);
-		winningPlayerIndex.createWinningHandImg(winningPlayerIndex.currentHand.length);
+		if (bestHand.hand === 'Four of a Kind' || bestHand.hand === 'Three of a Kind' || bestHand.hand === 'Two Pair') {
+			$('.winner').html('The winner is computer player ' + winningPlayer.name + ' with ' + bestHand.hand);
+			winningPlayer.createWinningHandImg(winningPlayer.currentHand.length);
+		} else { 
+			$('.winner').html('The winner is computer player ' + winningPlayer.name + ' with a ' + bestHand.hand);
+			winningPlayer.createWinningHandImg(winningPlayer.currentHand.length);
+		}
 	};
 
 	return winner;
@@ -79,7 +85,6 @@ Game.prototype.computerDiscard = function(){
 		if (bestHandType === 'Royal Flush' || bestHandType === 'Straight Flush' || bestHandType === 'Flush' || bestHandType === 'Straight' || bestHandType === 'Full House') {
 			return;
 		} else if (bestHandType === 'Two Pair') {
-			console.log('twoPair Full Hand before', currentFullHand);
 			for (card = 0; card < currentFullHand.length; card++) {
 				var currentCard = currentFullHand[card];
 				var currentCardValue = currentCard.number;
