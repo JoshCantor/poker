@@ -1,5 +1,5 @@
 var Game = function(numberOfPlayers) {
-	this.start();
+	// this.start();
 	this.deck = new DeckOfCards();
 	this.players = [];
 	//creating players
@@ -22,13 +22,13 @@ var Game = function(numberOfPlayers) {
 }
 	
 
-Game.prototype.start = function() {
-	console.log("We're beginning a new game! Let the dealing begin.");
-}
+// Game.prototype.start = function() {
+// 	console.log("We're beginning a new game! Let the dealing begin.");
+// }
 
-Game.prototype.end = function() {
-	console.log("Sadly, the game is now over :(");
-}
+// Game.prototype.end = function() {
+// 	console.log("Sadly, the game is now over :(");
+// }
 
 Game.prototype.determineWinner = function() {
 	var winner;
@@ -52,17 +52,16 @@ Game.prototype.determineWinner = function() {
 	}
 
 	var winningPlayer = players[winner - 1];
-	console.log(winningPlayer);
 	var showWinner = $('<div class=\'col-md-2\'><p class=\'winner\'>');
 	$('.winningHand').append(showWinner);
-	
-	if (winningPlayer === 1) {
+	console.log('win', winningPlayer);
+	if (winningPlayer.name === 1) {
 		$('.winner').html('You won!');
 	} else if (winner === 'tie') {
 		$('.winner').html('It\'s a tie! (for now...)');
 	} else {
 		if (bestHand.hand === 'Four of a Kind' || bestHand.hand === 'Three of a Kind' || bestHand.hand === 'Two Pair') {
-			$('.winner').html('The winner is computer player ' + winningPlayer.name + ' with ' + bestHand.hand);
+			$('.winner').html('The winner is computer player ' + (Number(winningPlayer.name) - 1) + ' with ' + bestHand.hand);
 			winningPlayer.createWinningHandImg(winningPlayer.currentHand.length);
 		} else { 
 			$('.winner').html('The winner is computer player ' + (Number(winningPlayer.name) - 1) + ' with a ' + bestHand.hand);
@@ -73,45 +72,45 @@ Game.prototype.determineWinner = function() {
 	return winner;
 }
 
-Game.prototype.computerDiscard = function(){
+Game.prototype.computerDiscardAndDraw = function(){
 	var players = this.players;
+	var numDiscards = 0;
 	for (player = 1; player < players.length; player++) {
 		var currentPlayer = players[player];
 		var bestHand = currentPlayer.bestHand();
 		var bestHandType = bestHand.hand;
 		var bestHandValue = bestHand.value;
 		var currentFullHand = players[player].currentHand;
+		console.log(player, currentFullHand);
 		var deck = this.deck.cardList;
+		
 		if (bestHandType === 'Royal Flush' || bestHandType === 'Straight Flush' || bestHandType === 'Flush' || bestHandType === 'Straight' || bestHandType === 'Full House') {
 			return;
-		} else if (bestHandType === 'Two Pair') {
-			for (card = 0; card < currentFullHand.length; card++) {
-				var currentCard = currentFullHand[card];
-				var currentCardValue = currentCard.number;
-				var discards = currentPlayer.discards;
-				if (bestHandValue[0] !== currentCardValue || bestHandValue[1] !== currentCardValue) {
-					discards.push(card);
-				}
-				for(i in discards) {
-					var handIndex = discards[i];
-					currentFullHand[handIndex] = deck.shift();
-				}
-			}
 		} else {
 			for (card = 0; card < currentFullHand.length; card++) {
 				var currentCard = currentFullHand[card];
 				var currentCardValue = currentCard.number;
 				var discards = currentPlayer.discards;
-				if (bestHandValue !== currentCardValue) {
+				if (bestHandType === 'Two Pair') {
+					if (bestHandValue[0] !== currentCardValue || bestHandValue[1] !== currentCardValue) {
+						discards.push(card);
+					}
+				} else {
+					if (bestHandValue !== currentCardValue) {
 					discards.push(card);
+					}
 				}
 			}
 			for (i in discards) {
 				var handIndex = discards[i];
+				console.log('deck', deck.length);
 				currentFullHand[handIndex] = deck.shift();
+				numDiscards += 1
 			}
-		}
+		} 
+		console.log(player, currentFullHand);
 	}
+	console.log('discards', numDiscards);
 }
 
 Game.prototype.discard = function() {
@@ -121,6 +120,7 @@ Game.prototype.discard = function() {
 	var discards = user.discards;
 	var userHand = user.currentHand;
 	var deck = this.deck.cardList;
+	
 	$('.discardButton').on('click', function(event) {
 		if (userDiscardNum < 1) {
 			userDiscardNum += 1;
@@ -131,9 +131,9 @@ Game.prototype.discard = function() {
 				user.replaceCardImg(handIndex);
 			}
 			console.log('waaaay before', _this.players[1].currentHand);
-			_this.computerDiscard();
+			_this.computerDiscardAndDraw();
 			_this.determineWinner();
-			_this.end();
+			// _this.end();
 		}	
 	})
 }

@@ -6,11 +6,7 @@ var Player = function(name, currentHand, potentialHands) {
 	this.numberOfDiscards = 0;
 }
 
-Player.prototype.discardAndDraw = function() {
-
-}
-
-Player.prototype.lookAtDetailedCards = function() {
+Player.prototype.sortHand = function() {
 	var sortedHand = this.currentHand.slice().sort(function(a, b) {
 		return a.phantomNumber - b.phantomNumber;
 	});
@@ -31,7 +27,7 @@ Player.prototype.evaluateHand = function() {
 	// game1.players[0].currentHand[4].phantomNumber = 14;
 
 	//sort hand by number
-	var sortedHand = this.lookAtDetailedCards();
+	var sortedHand = this.sortHand();
 
 	var highCard = sortedHand[4];
 	
@@ -48,62 +44,62 @@ Player.prototype.evaluateHand = function() {
 
 	var pair1 = {
 		hand: 'Pair',
-		value: false,
+		value: undefined,
 		rank: 1
 	};
 
 	var pair2 = {
 		hand: 'Pair2',
-		value: false
+		value: undefined
 	};
 
 	var twoPair = {
 		hand: 'Two Pair',
-		value: false,
+		value: undefined,
 		rank: 2
 	};
 
 	var threeOfKind = {
 		hand: 'Three of a Kind',
-		value: false,
+		value: undefined,
 		rank: 3
 	};
 
 	var straight = {
 		hand: 'Straight',
-		value: false,
+		value: undefined,
 		rank: 4
 	};
 
 	var fourOfKind = {
 		hand: 'Four of a Kind',
-		value: false,
+		value: undefined,
 		rank: 5
 	};
 
 	var fullHouse = {
 		hand: 'Full House', 
-		value: false,
+		value: undefined,
 		rank: 6
 	};
 
 	var flush = {
 		hand: 'Flush', 
-		value: false,
+		value: undefined,
 		rank: 7
 	};
 
 	var straightFlush = {
 		hand: 'Straight Flush', 
-		value: false,
+		value: undefined,
 		rank: 8
 	};
 
-	var royalFlush = {
-		hand: 'Royal Flush', 
-		value: false,
-		rank: 9
-	};
+	// var royalFlush = {
+	// 	hand: 'Royal Flush', 
+	// 	value: undefined,
+	// 	rank: 9
+	// };
 
 	function getCardNumber(index) {
 		return sortedHand[index].number;
@@ -130,7 +126,7 @@ Player.prototype.evaluateHand = function() {
 				threeOfKind.value = cardIndex;
 				threeOfKind.phantNum = phantomNumber;
 			}
-			else if (isIncluded(cardIndex, cardsSeen) && pair1.value !== false && cardIndex !== pair1.value) {
+			else if (isIncluded(cardIndex, cardsSeen) && pair1.value && cardIndex !== pair1.value) {
 				pair2.value = cardIndex;
 				pair2.phantNum = phantomNumber;
 				twoPair.value = [pair1.value, pair2.value];
@@ -146,10 +142,10 @@ Player.prototype.evaluateHand = function() {
 	isXofKind();
 
 	function isFullHouse() {
-		if (pair2.value !== false && threeOfKind.value !== false && pair2.value !== threeOfKind.value) {
+		if (pair2.value && threeOfKind.value && pair2.value !== threeOfKind.value) {
 			fullHouse.value = ["pair " + pair2.value, "three " + threeOfKind.value];
 			// fullHouse.phantNum = ['pair' pair2.phantNum, 'three' + threeOfKind.phantNum];
-		} else if (pair1.value !== false && threeOfKind.value !== false && pair1.value !== threeOfKind.value) {
+		} else if (pair1.value && threeOfKind.value && pair1.value !== threeOfKind.value) {
 			fullHouse.value = ["pair " + pair1.value, "three " + threeOfKind.value];
 			fullHouse.phantNum = ['pair' + pair1.phanNum, 'three' + threeOfKind.phantNum];
 		}
@@ -199,13 +195,13 @@ Player.prototype.evaluateHand = function() {
 	}
 	isStraightFlush();
 
-	function isRoyalFlush() {
-		if (straightFlush && (getCardNumber(0) === 10)) {
-			royalFlush.value = true;
-		}
-		this.royalFlush = royalFlush;
-	}
-	isRoyalFlush();
+	// function isRoyalFlush() {
+	// 	if (straightFlush && (getCardNumber(0) === 10)) {
+	// 		royalFlush.value = true;
+	// 	}
+	// 	this.royalFlush = royalFlush;
+	// }
+	// isRoyalFlush();
 
 	var cardList = [];
 	for (card in sortedHand) {
@@ -220,7 +216,7 @@ Player.prototype.evaluateHand = function() {
 	fourOfKind.sortedHand = cardList;
 	flush.sortedHand = cardList;
 	straightFlush.sortedHand = cardList;
-	royalFlush.sortedHand = cardList;
+	// royalFlush.sortedHand = cardList;
 
 	potentialHands.push(pair1);
 	potentialHands.push(pair2);
@@ -231,7 +227,7 @@ Player.prototype.evaluateHand = function() {
 	potentialHands.push(fullHouse);
 	potentialHands.push(flush);
 	potentialHands.push(straightFlush);
-	potentialHands.push(royalFlush);
+	// potentialHands.push(royalFlush);
 
 	return potentialHands;
 }	
