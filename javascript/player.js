@@ -95,11 +95,11 @@ Player.prototype.evaluateHand = function() {
 		rank: 8
 	};
 
-	// var royalFlush = {
-	// 	hand: 'Royal Flush', 
-	// 	value: undefined,
-	// 	rank: 9
-	// };
+	var royalFlush = {
+		hand: 'Royal Flush', 
+		value: undefined,
+		rank: 9
+	};
 
 	function getCardNumber(index) {
 		return sortedHand[index].number;
@@ -144,7 +144,7 @@ Player.prototype.evaluateHand = function() {
 	function isFullHouse() {
 		if (pair2.value && threeOfKind.value && pair2.value !== threeOfKind.value) {
 			fullHouse.value = ["pair " + pair2.value, "three " + threeOfKind.value];
-			// fullHouse.phantNum = ['pair' pair2.phantNum, 'three' + threeOfKind.phantNum];
+			fullHouse.phantNum = ['pair' + pair2.phantNum, 'three' + threeOfKind.phantNum];
 		} else if (pair1.value && threeOfKind.value && pair1.value !== threeOfKind.value) {
 			fullHouse.value = ["pair " + pair1.value, "three " + threeOfKind.value];
 			fullHouse.phantNum = ['pair' + pair1.phanNum, 'three' + threeOfKind.phantNum];
@@ -195,13 +195,13 @@ Player.prototype.evaluateHand = function() {
 	}
 	isStraightFlush();
 
-	// function isRoyalFlush() {
-	// 	if (straightFlush && (getCardNumber(0) === 10)) {
-	// 		royalFlush.value = true;
-	// 	}
-	// 	this.royalFlush = royalFlush;
-	// }
-	// isRoyalFlush();
+	function isRoyalFlush() {
+		if (straightFlush && (getCardNumber(0) === 10)) {
+			royalFlush.value = true;
+		}
+		this.royalFlush = royalFlush;
+	}
+	isRoyalFlush();
 
 	var cardList = [];
 	for (card in sortedHand) {
@@ -216,7 +216,7 @@ Player.prototype.evaluateHand = function() {
 	fourOfKind.sortedHand = cardList;
 	flush.sortedHand = cardList;
 	straightFlush.sortedHand = cardList;
-	// royalFlush.sortedHand = cardList;
+	royalFlush.sortedHand = cardList;
 
 	potentialHands.push(pair1);
 	potentialHands.push(pair2);
@@ -227,7 +227,7 @@ Player.prototype.evaluateHand = function() {
 	potentialHands.push(fullHouse);
 	potentialHands.push(flush);
 	potentialHands.push(straightFlush);
-	// potentialHands.push(royalFlush);
+	potentialHands.push(royalFlush);
 
 	return potentialHands;
 }	
