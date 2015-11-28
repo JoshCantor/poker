@@ -65,7 +65,7 @@ Game.prototype.determineWinner = function() {
 			$('.winner').html('The winner is computer player ' + winningPlayer.name + ' with ' + bestHand.hand);
 			winningPlayer.createWinningHandImg(winningPlayer.currentHand.length);
 		} else { 
-			$('.winner').html('The winner is computer player ' + winningPlayer.name + ' with a ' + bestHand.hand);
+			$('.winner').html('The winner is computer player ' + (Number(winningPlayer.name) - 1) + ' with a ' + bestHand.hand);
 			winningPlayer.createWinningHandImg(winningPlayer.currentHand.length);
 		}
 	};
