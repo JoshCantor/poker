@@ -8,7 +8,7 @@ var createGamePlayer = function(i) {
 
 	var playerImg = $('<img>').attr('src', 'images/card_back.png');
 
-	var playerName = $('<p>').html('Computer Player ' + (i));
+	var playerName = $('<p>').html('Computer ' + (i));
 
 	playerContainer.append(playerImg, playerName);
 
