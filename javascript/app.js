@@ -39,17 +39,17 @@ var startGameButton = function() {
 		$('.players, .user, .winningHand').remove();
 		var players = $('<div>').addClass('row players');
 		$('.container-fluid').append(players);
+		$('.players').append($('<div>').addClass('col-md-offset-2 col-md-1'));
 		var user = $('<div>').addClass('row user');
 		$('.container-fluid').append(user);
-		var winningHand = $('<div>').addClass('row winningHand');
-		$('.container-fluid').append(winningHand);
 		var numberOfComputerPlayers = window.prompt('HOW MANY COMPUTER PLAYERS WOULD YOU LIKE?');
 		var totalNumberOfPlayers = Number(numberOfComputerPlayers) + 1;
 		var playerName = window.prompt('WHAT\'S YOUR NAME?');
-		$('.user').append($('<div><p>' + playerName + '</p></div>').addClass('col-md-1'));
+		$('.user').append($('<div><p>' + playerName + '</p></div>').addClass('col-md-offset-2 col-md-1'));
 		createAllPlayers(totalNumberOfPlayers);
 		GAME_START = new Game(totalNumberOfPlayers);
-		
+		var winningHand = $('<div>').addClass('row winningHand');
+		$('.container-fluid').append(winningHand);
 	})
 }
 $('document').ready(function() {

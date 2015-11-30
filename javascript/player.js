@@ -43,60 +43,60 @@ Player.prototype.evaluateHand = function() {
 	];
 
 	var pair1 = {
-		hand: 'Pair',
+		hand: 'pair',
 		value: undefined,
 		rank: 1
 	};
 
 	var pair2 = {
-		hand: 'Pair2',
+		hand: 'pair2',
 		value: undefined
 	};
 
 	var twoPair = {
-		hand: 'Two Pair',
+		hand: 'two pair',
 		value: undefined,
 		rank: 2
 	};
 
 	var threeOfKind = {
-		hand: 'Three of a Kind',
+		hand: 'three of a kind',
 		value: undefined,
 		rank: 3
 	};
 
 	var straight = {
-		hand: 'Straight',
+		hand: 'straight',
 		value: undefined,
 		rank: 4
 	};
 
 	var fourOfKind = {
-		hand: 'Four of a Kind',
+		hand: 'four of a kind',
 		value: undefined,
 		rank: 5
 	};
 
 	var fullHouse = {
-		hand: 'Full House', 
+		hand: 'full house', 
 		value: undefined,
 		rank: 6
 	};
 
 	var flush = {
-		hand: 'Flush', 
+		hand: 'flush', 
 		value: undefined,
 		rank: 7
 	};
 
 	var straightFlush = {
-		hand: 'Straight Flush', 
+		hand: 'straight flush', 
 		value: undefined,
 		rank: 8
 	};
 
 	var royalFlush = {
-		hand: 'Royal Flush', 
+		hand: 'royal flush', 
 		value: undefined,
 		rank: 9
 	};

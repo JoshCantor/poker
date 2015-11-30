@@ -10,3 +10,21 @@ body {
 p {
 	color: white;
 }
+
+.players {
+	margin-top: 40px;
+	margin-bottom: 10px;
+}
+
+.user {
+	margin-bottom: 20px;
+	font-size: 20px;
+}
+
+.card0, .winningCard0 {
+	margin-left: 20px;
+}
+
+.winner {
+	font-size: 20px;
+}

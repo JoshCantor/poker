@@ -52,12 +52,12 @@ Game.prototype.determineWinner = function() {
 	}
 
 	var winningPlayer = players[winner - 1];
-	var showWinner = $('<div class=\'col-md-2\'><p class=\'winner\'>');
+	var showWinner = $('<div class=\'col-md-3\'><p class=\'winner\'>');
 	$('.winningHand').append(showWinner);
 	
 	if (winningPlayer === 'tie') {
 		$('.winner').html('It\'s a tie! (for now...)');
-	} else if (bestHand.hand === 'Four of a Kind' || bestHand.hand === 'Three of a Kind' || bestHand.hand === 'Two Pair') {
+	} else if (bestHand.hand === 'four of a kind' || bestHand.hand === 'three of a kind' || bestHand.hand === 'two pair') {
 		if (winningPlayer.name === 1) {
 			$('.winner').html('You won with ' + bestHand.hand +'!');
 		} else {
