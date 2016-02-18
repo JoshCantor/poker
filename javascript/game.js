@@ -1,12 +1,13 @@
 var Game = function(numberOfPlayers) {
-	// this.start();
 	this.deck = new DeckOfCards();
 	this.players = [];
+
 	//creating players
-	for (playerNumber = 1; playerNumber <= numberOfPlayers; playerNumber++) {
+	for (var playerNumber = 1; playerNumber <= numberOfPlayers; playerNumber++) {
 		var player = new Player (playerNumber, []);
 		this.players.push(player);
 	}
+
 	//dealing cards 
 	while (this.players[this.players.length - 1].currentHand.length < 5) {
 		for (var playerNumber = 0; playerNumber < numberOfPlayers; playerNumber++) {
@@ -14,6 +15,7 @@ var Game = function(numberOfPlayers) {
 			this.deck.cardList.shift();
 		}
 	}
+
 	var user = this.players[0];
 	user.createHandImg(user.currentHand.length);
 	
@@ -34,10 +36,11 @@ Game.prototype.determineWinner = function() {
 	var winner;
 	var bestHand;
 	var players = this.players;
-	for(player in players) {
+
+	for(var player in players) {
 		var currentPlayer = players[player]
 		var currentPlayerBestHand = currentPlayer.bestHand();
-		console.log(player, currentPlayerBestHand);
+		
 		if(bestHand === undefined || currentPlayerBestHand.rank > bestHand.rank) {
 			bestHand = currentPlayerBestHand;
 			winner = currentPlayer.name;
@@ -79,7 +82,8 @@ Game.prototype.determineWinner = function() {
 Game.prototype.computerDiscardAndDraw = function(){
 	var players = this.players;
 	var numDiscards = 0;
-	for (player = 1; player < players.length; player++) {
+	
+	for (var player = 1; player < players.length; player++) {
 		var currentPlayer = players[player];
 		var bestHand = currentPlayer.bestHand();
 		var bestHandType = bestHand.hand;
@@ -90,7 +94,7 @@ Game.prototype.computerDiscardAndDraw = function(){
 		if (bestHandType === 'Royal Flush' || bestHandType === 'Straight Flush' || bestHandType === 'Flush' || bestHandType === 'Straight' || bestHandType === 'Full House') {
 			return;
 		} else {
-			for (card = 0; card < currentFullHand.length; card++) {
+			for (var card = 0; card < currentFullHand.length; card++) {
 				var currentCard = currentFullHand[card];
 				var currentCardValue = currentCard.number;
 				var discards = currentPlayer.discards;
@@ -104,7 +108,7 @@ Game.prototype.computerDiscardAndDraw = function(){
 					}
 				}
 			}
-			for (i in discards) {
+			for (var i in discards) {
 				var handIndex = discards[i];
 				currentFullHand[handIndex] = deck.shift();
 				numDiscards += 1
@@ -124,7 +128,7 @@ Game.prototype.discard = function() {
 	$('.discardButton').on('click', function(event) {
 		if (userDiscardNum < 1) {
 			userDiscardNum += 1;
-			for(i in discards) {
+			for(var i in discards) {
 				var handIndex = discards[i];
 				userHand[handIndex] = deck.shift();
 				$('.' + handIndex).remove();
@@ -132,7 +136,6 @@ Game.prototype.discard = function() {
 			}
 			_this.computerDiscardAndDraw();
 			_this.determineWinner();
-			// _this.end();
 		}	
 	})
 }

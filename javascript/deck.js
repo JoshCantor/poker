@@ -10,6 +10,7 @@ DeckOfCards.prototype.create = function() {
 	var faceCards = ["jack", "queen", "king", "ace"];
 	var suits = ["clubs", "diamonds", "hearts", "spades"];
 	var cardCounter = 1 
+	
 	for(var i = 0; i < suits.length; i++) {	
 		for(var cardNumber = 2; cardNumber <= 10; cardNumber++) {
 			var card = new Card (cardCounter, cardNumber, suits[i], cardNumber, i);
@@ -24,6 +25,7 @@ DeckOfCards.prototype.create = function() {
 			cardCounter += 1;
 		}
 	}
+	
 	this.cardList = cardList;
 	this.numberOfCards = cardList.length;
 }
@@ -46,11 +48,11 @@ function randomCardNumber() {
 }
 
 DeckOfCards.prototype.shuffle = function() {
-	var deck             = this.cardList;
-	var shuffled         = [];
+	var deck = this.cardList;
+	var shuffled = [];
 	var randomNumberList = [];
 
-	for (i = 1; i <= 52; i++) {
+	for (var i = 1; i <= 52; i++) {
 		addOnlyNovelNumbersToList(randomCardNumber(), randomNumberList);
 	}
 	

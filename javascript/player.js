@@ -28,18 +28,16 @@ Player.prototype.evaluateHand = function() {
 
 	//sort hand by number
 	var sortedHand = this.sortHand();
-
 	var highCard = sortedHand[4];
-	
 	var potentialHands = [
-			{
-				hand: 'High Card',
-				value: highCard.number,
-				sortedHand: sortedHand,
-				rank: 0,
-				phantNum: highCard.phantomNumber
+		{
+			hand: 'High Card',
+			value: highCard.number,
+			sortedHand: sortedHand,
+			rank: 0,
+			phantNum: highCard.phantomNumber
 
-			}
+		}
 	];
 
 	var pair1 = {
@@ -115,7 +113,7 @@ Player.prototype.evaluateHand = function() {
 	
 	function isXofKind() {
 		var cardsSeen = [];	
-		for (i = 0; i < sortedHand.length; i++) {
+		for (var i = 0; i < sortedHand.length; i++) {
 			cardIndex = getCardNumber(i);
 			phantomNumber = getPhantomNumber(i);
 			if (cardIndex === threeOfKind.value) {
@@ -154,7 +152,7 @@ Player.prototype.evaluateHand = function() {
 	isFullHouse();
 
 	function isFlush() {
-		for (i = 0; i <= sortedHand.length - 2; i++) {
+		for (var i = 0; i <= sortedHand.length - 2; i++) {
 			if (getCardSuit(i + 1) !== getCardSuit(i)) {
 				return false
 			}
@@ -204,7 +202,7 @@ Player.prototype.evaluateHand = function() {
 	isRoyalFlush();
 
 	var cardList = [];
-	for (card in sortedHand) {
+	for (var card in sortedHand) {
 		cardList.push(sortedHand[card].phantomNumber);
 	}
 	potentialHands[0].sortedHand = cardList;
@@ -236,7 +234,7 @@ Player.prototype.bestHand = function() {
 	var potentialHands = this.evaluateHand();
 	var bestHand;
 	var i = 0;
-	for (eachHand in potentialHands) {
+	for (var eachHand in potentialHands) {
 		var hand = potentialHands[eachHand];
 		if (hand.value) {
 			bestHand = potentialHands[eachHand];
