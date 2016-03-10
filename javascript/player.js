@@ -13,6 +13,7 @@ Player.prototype.sortHand = function() {
 	return sortedHand;
 }
 
+
 Player.prototype.evaluateHand = function() {
 	// for testing straights/straight flushes
 	// game1.players[0].currentHand[0].number = 10;
@@ -26,14 +27,15 @@ Player.prototype.evaluateHand = function() {
 	// game1.players[0].currentHand[3].phantomNumber = 13;
 	// game1.players[0].currentHand[4].phantomNumber = 14;
 
-	//sort hand by number
-	var sortedHand = this.sortHand();
-	var highCard = sortedHand[4];
+	//make these properties on the object, not local variables
+	debugger
+	this.sortedHand = this.sortHand();
+	var highCard = this.sortedHand[4];
 	var potentialHands = [
 		{
 			hand: 'High Card',
 			value: highCard.number,
-			sortedHand: sortedHand,
+			sortedHand: this.sortedHand,
 			rank: 0,
 			phantNum: highCard.phantomNumber
 
@@ -98,22 +100,23 @@ Player.prototype.evaluateHand = function() {
 		value: undefined,
 		rank: 9
 	};
-
+//make all of these methods on player prototype
 	function getCardNumber(index) {
-		return sortedHand[index].number;
+		return this.sortedHand[index].number;
 	}
 
 	function getPhantomNumber(index) {
-		return sortedHand[index].phantomNumber;
+		return this.sortedHand[index].phantomNumber;
 	}
 
 	function getCardSuit(index) {
-		return sortedHand[index].suit;
+		return this.sortedHand[index].suit;
 	}
 	
 	function isXofKind() {
-		var cardsSeen = [];	
-		for (var i = 0; i < sortedHand.length; i++) {
+		var cardsSeen = [];
+		debugger	
+		for (var i = 0; i < this.sortedHand.length; i++) {
 			cardIndex = getCardNumber(i);
 			phantomNumber = getPhantomNumber(i);
 			if (cardIndex === threeOfKind.value) {
@@ -152,7 +155,7 @@ Player.prototype.evaluateHand = function() {
 	isFullHouse();
 
 	function isFlush() {
-		for (var i = 0; i <= sortedHand.length - 2; i++) {
+		for (var i = 0; i <= this.sortedHand.length - 2; i++) {
 			if (getCardSuit(i + 1) !== getCardSuit(i)) {
 				return false
 			}
@@ -163,19 +166,19 @@ Player.prototype.evaluateHand = function() {
 	isFlush(); 
 
 	function isStraight() {
-		for (var i = 0; i < sortedHand.length - 1; i++) {
-			if (sortedHand[i + 1].phantomNumber === sortedHand[i].phantomNumber + 1) {
-				if (i === sortedHand.length - 2) {
-					straight.value = [sortedHand[0].number, sortedHand[4].number];
+		for (var i = 0; i < this.sortedHand.length - 1; i++) {
+			if (this.sortedHand[i + 1].phantomNumber === this.sortedHand[i].phantomNumber + 1) {
+				if (i === this.sortedHand.length - 2) {
+					straight.value = [this.sortedHand[0].number, this.sortedHand[4].number];
 				}
 			} else {
 				break;
 			}
 		}
 		for (var i = 0; i <= 2; i++) {
-			if (sortedHand[i + 1].phantomNumber === sortedHand[i].phantomNumber + 1) {
-				if (i === 2 && sortedHand[4].phantomNumber === 14 && sortedHand[0].phantomNumber === 2) {
-					straight.value = [sortedHand[4].number, sortedHand[3].number];
+			if (this.sortedHand[i + 1].phantomNumber === this.sortedHand[i].phantomNumber + 1) {
+				if (i === 2 && this.sortedHand[4].phantomNumber === 14 && this.sortedHand[0].phantomNumber === 2) {
+					straight.value = [this.sortedHand[4].number, this.sortedHand[3].number];
 				}
 			} else {
 				break;
@@ -202,8 +205,8 @@ Player.prototype.evaluateHand = function() {
 	isRoyalFlush();
 
 	var cardList = [];
-	for (var card in sortedHand) {
-		cardList.push(sortedHand[card].phantomNumber);
+	for (var card in this.sortedHand) {
+		cardList.push(this.sortedHand[card].phantomNumber);
 	}
 	potentialHands[0].sortedHand = cardList;
 	pair1.sortedHand = cardList;
@@ -286,4 +289,6 @@ Player.prototype.createWinningHandImg = function(handSize) {
 	}
 }
 
-
+// module.exports = {
+// 	sortHand: Player.prototype.sortHand 
+// }

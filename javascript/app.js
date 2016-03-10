@@ -1,8 +1,3 @@
-// window.onload = function() {
-// 	var pokerTable = $('<img>').attr('src', 'images/pokerTable.png');
-// 	$('.container-fluid').append(pokerTable);
-// }
-
 var createGamePlayer = function(i) {
 	var playerContainer = $('<div>').addClass('col-md-1 player');
 	var playerImg = $('<img>').attr('src', 'images/card_back.png');
