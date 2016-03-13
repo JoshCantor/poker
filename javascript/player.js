@@ -256,7 +256,7 @@ Player.prototype.createHandImg = function(handSize) {
 
 Player.prototype.selectDiscard = function() {
 	var _this = this;
-	window.alert('CLICK EACH CARD YOU WOULD LIKE TO DISCARD, THEN CLICK THE \'DISCARD\' BUTTON');	
+	window.alert('Click Each Card You Would Like To Discard, Then Click the \'Discard\' Button');	
 	$('.0, .1, .2, .3, .4').on('click', function(event) {
 		$(event.target).css('margin-top', '25px');
 		var discarded = $(event.target).attr('class');
