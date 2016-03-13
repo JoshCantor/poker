@@ -197,7 +197,7 @@ Player.prototype.evaluateHand = function() {
 	isStraightFlush();
 
 	function isRoyalFlush() {
-		if (straightFlush && (getCardNumber(0) === 10)) {
+		if (straightFlush.value && (getCardNumber(0) === 10)) {
 			royalFlush.value = true;
 		}
 		this.royalFlush = royalFlush;
