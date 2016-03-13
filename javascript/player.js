@@ -14,17 +14,6 @@ Player.prototype.sortHand = function() {
 }
 
 Player.prototype.evaluateHand = function() {
-	// for testing straights/straight flushes
-	// game1.players[0].currentHand[0].number = 10;
-	// game1.players[0].currentHand[1].number = "Jack";
-	// game1.players[0].currentHand[2].number = "Queen";
-	// game1.players[0].currentHand[3].number = "King";
-	// game1.players[0].currentHand[4].number = "Ace";
-	// game1.players[0].currentHand[0].phantomNumber = 10;
-	// game1.players[0].currentHand[1].phantomNumber = 11;
-	// game1.players[0].currentHand[2].phantomNumber = 12;
-	// game1.players[0].currentHand[3].phantomNumber = 13;
-	// game1.players[0].currentHand[4].phantomNumber = 14;
 
 	//sort hand by number
 	var sortedHand = this.sortHand();
@@ -196,27 +185,27 @@ Player.prototype.evaluateHand = function() {
 	isStraightFlush();
 
 	function isRoyalFlush() {
-		if (straightFlush && (getCardNumber(0) === 10)) {
+		if (straightFlush.value && (getCardNumber(0) === 10)) {
 			royalFlush.value = true;
 		}
 		this.royalFlush = royalFlush;
 	}
 	isRoyalFlush();
 
-	var cardList = [];
-	for (card in sortedHand) {
-		cardList.push(sortedHand[card].phantomNumber);
-	}
-	potentialHands[0].sortedHand = cardList;
-	pair1.sortedHand = cardList;
-	pair2.sortedHand = cardList;
-	twoPair.sortedHand = cardList;
-	threeOfKind.sortedHand = cardList;
-	straight.sortedHand = cardList;
-	fourOfKind.sortedHand = cardList;
-	flush.sortedHand = cardList;
-	straightFlush.sortedHand = cardList;
-	royalFlush.sortedHand = cardList;
+	// var cardList = [];
+	// for (card in sortedHand) {
+	// 	cardList.push(sortedHand[card].phantomNumber);
+	// }
+	// potentialHands[0].sortedHand = cardList;
+	// pair1.sortedHand = cardList;
+	// pair2.sortedHand = cardList;
+	// twoPair.sortedHand = cardList;
+	// threeOfKind.sortedHand = cardList;
+	// straight.sortedHand = cardList;
+	// fourOfKind.sortedHand = cardList;
+	// flush.sortedHand = cardList;
+	// straightFlush.sortedHand = cardList;
+	// royalFlush.sortedHand = cardList;
 
 	potentialHands.push(pair1);
 	potentialHands.push(pair2);
