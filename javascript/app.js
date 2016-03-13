@@ -42,9 +42,9 @@ var startGameButton = function() {
 		$('.players').append($('<div>').addClass('col-md-offset-2 col-md-1'));
 		var user = $('<div>').addClass('row user');
 		$('.container-fluid').append(user);
-		var numberOfComputerPlayers = window.prompt('HOW MANY COMPUTER PLAYERS WOULD YOU LIKE?');
+		var numberOfComputerPlayers = window.prompt('Enter 1, 2, 3 or 4 to Select the Number of Computer Players');
 		var totalNumberOfPlayers = Number(numberOfComputerPlayers) + 1;
-		var playerName = window.prompt('WHAT\'S YOUR NAME?');
+		var playerName = window.prompt('What\'s Your Name?');
 		$('.user').append($('<div><p>' + playerName + '</p></div>').addClass('col-md-offset-2 col-md-1'));
 		createAllPlayers(totalNumberOfPlayers);
 		GAME_START = new Game(totalNumberOfPlayers);
